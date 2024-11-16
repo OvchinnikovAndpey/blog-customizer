@@ -34,17 +34,6 @@ export const ArticleParamsForm = ({
 	const [currentStyle, setCurrentStyle] = useState(style);
 
 	const formRef = useRef<HTMLFormElement>(null);
-	useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
-			if (formRef.current && !formRef.current.contains(event.target as Node)) {
-				setIsOpen(false);
-			}
-		};
-		document.addEventListener('mousedown', handleClickOutside);
-		return () => {
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, [isOpen]);
 
 	function formSubmitHandler(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -58,14 +47,23 @@ export const ArticleParamsForm = ({
 	}
 
 	useEffect(() => {
-		function closeEsc(event: KeyboardEvent) {
+		const closeEsc = (event: KeyboardEvent) => {
 			if (event.key === 'Escape') {
 				setIsOpen(false);
 			}
-		}
+		};
 		document.addEventListener('keydown', closeEsc);
+
+		const handleClickOutside = (event: MouseEvent) => {
+			if (formRef.current && !formRef.current.contains(event.target as Node)) {
+				setIsOpen(false);
+			}
+		};
+		document.addEventListener('mousedown', handleClickOutside);
+
 		return () => {
 			document.removeEventListener('keydown', closeEsc);
+			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, [isOpen]);
 
@@ -87,12 +85,6 @@ export const ArticleParamsForm = ({
 	function handlerFontSizeChange(item: OptionType) {
 		setCurrentStyle({ ...currentStyle, fontSizeOption: item });
 	}
-
-	// Функция для варианта попроще, не через кастомные хуки
-	// Оставил кастомные хуки, чтобы разобраться, как их реализовать
-	// function handleChange(key: keyof ArticleStateType, item: OptionType) {
-	// 	setCurrentStyle({ ...currentStyle, [key]: item });
-	// }
 
 	return (
 		<>
