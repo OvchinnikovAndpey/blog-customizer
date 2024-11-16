@@ -34,10 +34,17 @@ export const ArticleParamsForm = ({
 	const [currentStyle, setCurrentStyle] = useState(style);
 
 	const formRef = useRef<HTMLFormElement>(null);
-
-	// function formOpenHandler() {
-	// 	setIsOpen(true);
-	// }
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (formRef.current && !formRef.current.contains(event.target as Node)) {
+				setIsOpen(false);
+			}
+		};
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [isOpen]);
 
 	function formSubmitHandler(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
