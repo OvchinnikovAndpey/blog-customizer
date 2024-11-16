@@ -82,6 +82,7 @@ export const ArticleParamsForm = ({
 	}
 
 	// Функция для варианта попроще, не через кастомные хуки
+	// Оставил кастомные хуки, чтобы разобраться, как их реализовать
 	// function handleChange(key: keyof ArticleStateType, item: OptionType) {
 	// 	setCurrentStyle({ ...currentStyle, [key]: item });
 	// }
