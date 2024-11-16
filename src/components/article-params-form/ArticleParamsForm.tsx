@@ -146,3 +146,5 @@ export const ArticleParamsForm = ({
 		</>
 	);
 };
+
+export default ArticleParamsForm;
